@@ -2,12 +2,11 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 import os
-import time 
 from discord.utils import get
 import datetime
-import time
 import asyncio
-from comands_mod import ComandosMod
+from Comandos_Mod.comands_mute import ComandosMute
+from Comandos_Mod.comando_apagar import ComandoApagar
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -146,6 +145,24 @@ async def test(ctx):
 
 @client.command()
 @commands.has_any_role(admin)
+async def apagar(ctx, amount:str):
+  comand = ComandoApagar(ctx, amount)
+  await comand.apagar()
+
+@client.command()
+@commands.has_any_role(admin)
+async def mutar(ctx, member:discord.Member, timelimit):
+  comand = ComandosMute(ctx, member, timelimit)
+  await comand.mutar()
+
+@client.command()
+@commands.has_any_role(admin)
+async def desmutar(ctx, member:discord.Member):
+  comand = ComandosMute(ctx, member)
+  await comand.mutar()
+
+@client.command()
+@commands.has_any_role(admin)
 async def mod(ctx):
   embed = discord.Embed(
     title = "Lista de Comandos:",
@@ -160,13 +177,6 @@ async def mod(ctx):
     icon_url=client.user.avatar.url
   )
   mensagem = await ctx.channel.send(embed=embed)
-
-@client.command()
-@commands.has_any_role(admin)
-async def apagar(ctx, amount:str):
-  comand = ComandosMod(ctx, amount)
-  await comand.apagar()
-
 
 @client.command()
 @commands.has_any_role(admin)
@@ -225,58 +235,5 @@ async def timeout(ctx, member:discord.Member, timelimit):
       newtime = datetime.timedelta(weeks=int(gettime))
       await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
 
-      
-
-@client.command()
-@commands.has_any_role(admin)
-async def mute(ctx, member:discord.Member, timelimit):
-  role_muted = ctx.guild.get_role(1253179790702411836)
-  time_muted = 0
-  if "s" in timelimit:
-    gettime = int(timelimit.strip("s"))
-    if gettime > 2419000:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      time_muted += gettime
-  elif "m" in timelimit:
-    gettime = int(timelimit.strip("m"))
-    if gettime > 40320:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      gettime *= 60
-      time_muted += gettime
-  elif "h" in timelimit:
-    gettime = int(timelimit.strip("h"))
-    if int(gettime) > 40320:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      gettime *= 3600
-      time_muted += gettime
-  elif "d" in timelimit:
-    gettime = int(timelimit.strip("d"))
-    if gettime > 672:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      gettime *= 86400
-      time_muted += gettime
-  elif "w" in timelimit:
-    gettime = int(timelimit.strip("w"))
-    if gettime > 4:
-      await ctx.send("O valor do tempo não pode ser superior a 4 semanas")
-    else:
-      gettime *= 604800
-      time_muted += gettime
-  await member.edit(mute=True)
-  await member.add_roles(role_muted)
-  await asyncio.sleep(int(time_muted))
-  await member.edit(mute=None)
-  await member.remove_roles(role_muted)
-
-@client.command()
-@commands.has_any_role(admin)
-async def unmute(ctx, member:discord.Member):
-  role_muted = ctx.guild.get_role(1253179790702411836)
-  await member.edit(mute=None)
-  await member.remove_roles(role_muted)
   
 client.run(TOKEN)
