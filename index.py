@@ -159,42 +159,7 @@ async def mutar(ctx, member:discord.Member, timelimit):
 @commands.has_any_role(admin)
 async def desmutar(ctx, member:discord.Member):
   comand = ComandosMute(ctx, member)
-  await comand.mutar()
-
-@client.command()
-@commands.has_any_role(admin)
-async def mod(ctx):
-  embed = discord.Embed(
-    title = "Lista de Comandos:",
-    description = "- !apagar",
-    color = 0xffff00
-  )
-  embed.set_author(
-    name=client.user.name, 
-    icon_url=client.user.avatar.url)
-  embed.set_footer(
-    text="created by Kinz015",
-    icon_url=client.user.avatar.url
-  )
-  mensagem = await ctx.channel.send(embed=embed)
-
-@client.command()
-@commands.has_any_role(admin)
-async def ban(ctx, member:discord.Member, *, reason=None):
-  mod = ctx.message.author
-  channel = ctx.channel
-  msg = f"{member.mention} foi banido por {mod.mention}\nMotivo: {reason}" 
-  await member.ban()
-  await channel.send(msg)
-
-@client.command()
-@commands.has_any_role(admin)
-async def kick(ctx, member:discord.Member, *, reason=None):
-  mod = ctx.message.author
-  channel = ctx.channel
-  msg = f"{member.mention} foi expulso por {mod.mention}\nMotivo: {reason}" 
-  await member.kick()
-  await channel.send(msg)
+  await comand.desmutar()
 
 @client.command()
 @commands.has_any_role(admin)
@@ -233,7 +198,42 @@ async def timeout(ctx, member:discord.Member, timelimit):
       await ctx.send("O valor do tempo não pode ser superior a 4 weeks")
     else:
       newtime = datetime.timedelta(weeks=int(gettime))
-      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
+      await member.edit(timed_out_until=discord.utils.utcnow() + newtime)
+
+@client.command()
+@commands.has_any_role(admin)
+async def mod(ctx):
+  embed = discord.Embed(
+    title = "Lista de Comandos:",
+    description = "- !apagar",
+    color = 0xffff00
+  )
+  embed.set_author(
+    name=client.user.name, 
+    icon_url=client.user.avatar.url)
+  embed.set_footer(
+    text="created by Kinz015",
+    icon_url=client.user.avatar.url
+  )
+  mensagem = await ctx.channel.send(embed=embed)
+
+@client.command()
+@commands.has_any_role(admin)
+async def ban(ctx, member:discord.Member, *, reason=None):
+  mod = ctx.message.author
+  channel = ctx.channel
+  msg = f"{member.mention} foi banido por {mod.mention}\nMotivo: {reason}" 
+  await member.ban()
+  await channel.send(msg)
+
+@client.command()
+@commands.has_any_role(admin)
+async def kick(ctx, member:discord.Member, *, reason=None):
+  mod = ctx.message.author
+  channel = ctx.channel
+  msg = f"{member.mention} foi expulso por {mod.mention}\nMotivo: {reason}" 
+  await member.kick()
+  await channel.send(msg)
 
   
 client.run(TOKEN)
