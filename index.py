@@ -9,6 +9,7 @@ from Comandos_Mod.commands_clear import CommandsClear
 from Comandos_Mod.commands_timeout import CommandsTimeout
 from Comandos_Mod.commands_mod import CommandsMod
 from Comandos_Mod.commands_ban import CommandsBan
+from Comandos_Mod.commands_kick import CommandsKick
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -184,11 +185,8 @@ async def ban(ctx, member:discord.Member, *, reason=None):
 @client.command()
 @commands.has_any_role(admin)
 async def kick(ctx, member:discord.Member, *, reason=None):
-  mod = ctx.message.author
-  channel = ctx.channel
-  msg = f"{member.mention} foi expulso por {mod.mention}\nMotivo: {reason}" 
-  await member.kick()
-  await channel.send(msg)
+  comand = CommandsKick(ctx, member, reason)
+  await comand.kick()
 
 
 client.run(TOKEN)
