@@ -6,7 +6,8 @@ from discord.utils import get
 import asyncio
 from Comandos_Mod.commands_mute import CommandsMute
 from Comandos_Mod.commands_clear import CommandsClear
-from Comandos_Mod.commands_timeout import ComandosTimeout
+from Comandos_Mod.commands_timeout import CommandsTimeout
+from Comandos_Mod.commands_mod import CommandsMod
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -163,27 +164,16 @@ async def unmute(ctx, member:discord.Member):
 
 @client.command()
 @commands.has_any_role(admin)
-async def timeout(ctx, member:discord.Member, timelimit):
-  comand = ComandosTimeout(ctx, member, timelimit)
+async def timeout(ctx, member:discord.Member, timelimit, discord=discord):
+  comand = CommandsTimeout(ctx, member, timelimit, discord)
   await comand.timeout()
 
 @client.command()
 @commands.has_any_role(admin)
-async def mod(ctx):
-  embed = discord.Embed(
-    title = "Lista de Comandos:",
-    description = "- !apagar",
-    color = 0xffff00
-  )
-  embed.set_author(
-    name=client.user.name, 
-    icon_url=client.user.avatar.url)
-  embed.set_footer(
-    text="created by Kinz015",
-    icon_url=client.user.avatar.url
-  )
-  mensagem = await ctx.channel.send(embed=embed)
-
+async def mod(ctx, client=client, discord=discord):
+  comand = CommandsMod(ctx, client, discord)
+  await comand.mod()
+  
 @client.command()
 @commands.has_any_role(admin)
 async def ban(ctx, member:discord.Member, *, reason=None):
@@ -202,5 +192,5 @@ async def kick(ctx, member:discord.Member, *, reason=None):
   await member.kick()
   await channel.send(msg)
 
-  
+
 client.run(TOKEN)
