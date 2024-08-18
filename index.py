@@ -8,6 +8,7 @@ from Comandos_Mod.commands_mute import CommandsMute
 from Comandos_Mod.commands_clear import CommandsClear
 from Comandos_Mod.commands_timeout import CommandsTimeout
 from Comandos_Mod.commands_mod import CommandsMod
+from Comandos_Mod.commands_ban import CommandsBan
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -177,11 +178,8 @@ async def mod(ctx, client=client, discord=discord):
 @client.command()
 @commands.has_any_role(admin)
 async def ban(ctx, member:discord.Member, *, reason=None):
-  mod = ctx.message.author
-  channel = ctx.channel
-  msg = f"{member.mention} foi banido por {mod.mention}\nMotivo: {reason}" 
-  await member.ban()
-  await channel.send(msg)
+  comand = CommandsBan(ctx, member, reason)
+  await comand.ban()
 
 @client.command()
 @commands.has_any_role(admin)
