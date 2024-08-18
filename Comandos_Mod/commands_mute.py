@@ -1,12 +1,12 @@
 import asyncio
 
-class ComandosMute:
+class CommandsMute:
   def __init__(self, ctx, member, timelimit="0"):
     self.ctx = ctx
     self.member = member
     self.timelimit = timelimit
     
-  async def mutar(self):
+  async def mute(self):
     role_muted = self.ctx.guild.get_role(1253179790702411836)
     time_muted = 0
     if "s" in self.timelimit:
@@ -49,7 +49,7 @@ class ComandosMute:
     await self.member.edit(mute=None)
     await self.member.remove_roles(role_muted)
     
-  async def desmutar(self):
+  async def unmute(self):
     role_muted = self.ctx.guild.get_role(1253179790702411836)
     await self.member.edit(mute=None)
     await self.member.remove_roles(role_muted)

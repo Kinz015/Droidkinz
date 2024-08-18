@@ -3,10 +3,10 @@ from discord.ext import commands
 from dotenv import load_dotenv
 import os
 from discord.utils import get
-import datetime
 import asyncio
-from Comandos_Mod.comands_mute import ComandosMute
-from Comandos_Mod.comando_apagar import ComandoApagar
+from Comandos_Mod.commands_mute import CommandsMute
+from Comandos_Mod.commands_clear import CommandsClear
+from Comandos_Mod.commands_timeout import ComandosTimeout
 
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
@@ -145,60 +145,27 @@ async def test(ctx):
 
 @client.command()
 @commands.has_any_role(admin)
-async def apagar(ctx, amount:str):
-  comand = ComandoApagar(ctx, amount)
-  await comand.apagar()
+async def clear(ctx, amount:str):
+  comand = CommandsClear(ctx, amount)
+  await comand.clear()
 
 @client.command()
 @commands.has_any_role(admin)
-async def mutar(ctx, member:discord.Member, timelimit):
-  comand = ComandosMute(ctx, member, timelimit)
-  await comand.mutar()
+async def mute(ctx, member:discord.Member, timelimit):
+  comand = CommandsMute(ctx, member, timelimit)
+  await comand.mute()
 
 @client.command()
 @commands.has_any_role(admin)
-async def desmutar(ctx, member:discord.Member):
-  comand = ComandosMute(ctx, member)
-  await comand.desmutar()
+async def unmute(ctx, member:discord.Member):
+  comand = CommandsMute(ctx, member)
+  await comand.unmute()
 
 @client.command()
 @commands.has_any_role(admin)
 async def timeout(ctx, member:discord.Member, timelimit):
-  if "s" in timelimit:
-    gettime = timelimit.strip("s")
-    if int(gettime) > 2419000:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      newtime = datetime.timedelta(seconds=int(gettime))
-      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
-  elif "m" in timelimit:
-    gettime = timelimit.strip("m")
-    if int(gettime) > 40320:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      newtime = datetime.timedelta(minutes=int(gettime))
-      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
-  elif "h" in timelimit:
-    gettime = timelimit.strip("h")
-    if int(gettime) > 40320:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      newtime = datetime.timedelta(hours=int(gettime))
-      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
-  elif "d" in timelimit:
-    gettime = timelimit.strip("d")
-    if int(gettime) > 40320:
-      await ctx.send("O valor do tempo não pode ser superior a 28 dias")
-    else:
-      newtime = datetime.timedelta(days=int(gettime))
-      await member.edit(timed_out_until=discord.utils.utcnow() + newtime) 
-  elif "w" in timelimit:
-    gettime = timelimit.strip("w")
-    if int(gettime) > 40320:
-      await ctx.send("O valor do tempo não pode ser superior a 4 weeks")
-    else:
-      newtime = datetime.timedelta(weeks=int(gettime))
-      await member.edit(timed_out_until=discord.utils.utcnow() + newtime)
+  comand = ComandosTimeout(ctx, member, timelimit)
+  await comand.timeout()
 
 @client.command()
 @commands.has_any_role(admin)
