@@ -10,7 +10,9 @@ class CommandsLog:
     channel = self.client.get_channel(1274819670280507415)
     command = f"{self.ctx.message.content}"
     chat = self.ctx.channel.mention
-    embed = discord.Embed()
+    embed = discord.Embed(
+      colour=0xFFC222
+    )
     embed.set_author(
     name=self.ctx.author, 
     icon_url=self.ctx.author.avatar.url)
