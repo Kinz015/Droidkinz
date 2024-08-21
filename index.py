@@ -37,7 +37,6 @@ async def on_member_join(self):
   await canalbemvindo.send(f"{self.mention} bem vindo ao {self.guild}.")
   await self.add_roles(role)
 
-
 # !comandos
 @client.command()
 async def commands(ctx, discord=discord, client=client):
