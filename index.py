@@ -3,8 +3,8 @@ from discord.ext import commands as commands_import
 from dotenv import load_dotenv
 import os
 from discord.utils import get
-import asyncio
 from Comandos_User.commands_commands import CommandsCommands
+from Comandos_User.commands_profile import CommandsProfile
 from Comandos_Mod.commands_mute import CommandsMute
 from Comandos_Mod.commands_clear import CommandsClear
 from Comandos_Mod.commands_timeout import CommandsTimeout
@@ -41,7 +41,6 @@ async def on_member_join(self):
 # !comandos
 @client.command()
 async def commands(ctx, discord=discord, client=client):
-# Criar uma embed
   comand = CommandsCommands(ctx, discord, client)
   log = CommandsLog(ctx, ctx.author, client)
   await log.commandsLog()
@@ -49,33 +48,11 @@ async def commands(ctx, discord=discord, client=client):
 
 # !perfil
 @client.command()
-async def perfil(ctx):
-  created_at = discord.utils.snowflake_time(393863136979058699)
-  embed = discord.Embed(
-    title = f"Perfil de {ctx.author.global_name}",
-    description = f"Perfil criado desde {created_at} de ",
-    color = 0x993399
-  )
-  roles = ""
-  for role in ctx.author.roles:
-    if role.name != "@everyone":
-      roles = f"- {role.mention}\n" + roles
-  embed.add_field(
-      name="Tags:",
-      value=roles,
-      inline= False
-    )
-  embed.set_author(
-    name=client.user.name, 
-    icon_url=client.user.avatar.url)
-  embed.set_image(
-    url=ctx.author.avatar.url
-  )
-  embed.set_footer(
-    text="created by Kinz015",
-    icon_url=client.user.avatar.url
-  )
-  await ctx.channel.send(embed=embed)
+async def profile(ctx, member:discord.Member, discord=discord):
+  comand = CommandsProfile(ctx, member, discord)
+  log = CommandsLog(ctx, ctx.author, client)
+  await log.commandsLog()
+  await comand.profile()
 
 # COMANDOS YT / MUSICA
 @client.command()
@@ -137,6 +114,7 @@ async def test(ctx):
 
 #COMANDOS MOD
 
+# !clear
 @client.command()
 @commands_import.has_any_role(admin)
 async def clear(ctx, amount:str, client=client):
@@ -145,6 +123,7 @@ async def clear(ctx, amount:str, client=client):
   await log.commandsLog()
   await comand.clear()
 
+# !mute
 @client.command()
 @commands_import.has_any_role(admin)
 async def mute(ctx, member:discord.Member, timelimit, client=client):
@@ -153,6 +132,7 @@ async def mute(ctx, member:discord.Member, timelimit, client=client):
   await log.commandsLog()
   await comand.mute()
 
+# !unmute
 @client.command()
 @commands_import.has_any_role(admin)
 async def unmute(ctx, member:discord.Member, client=client):
@@ -161,6 +141,7 @@ async def unmute(ctx, member:discord.Member, client=client):
   await log.commandsLog()
   await comand.unmute()
 
+# !timeout
 @client.command()
 @commands_import.has_any_role(admin)
 async def timeout(ctx, member:discord.Member, timelimit, discord=discord, client=client):
@@ -169,6 +150,7 @@ async def timeout(ctx, member:discord.Member, timelimit, discord=discord, client
   await log.commandsLog()
   await comand.timeout()
 
+# !mod
 @client.command()
 @commands_import.has_any_role(admin)
 async def mod(ctx, client=client, discord=discord):
@@ -177,6 +159,7 @@ async def mod(ctx, client=client, discord=discord):
   await log.commandsLog()
   await comand.mod()
   
+# !ban
 @client.command()
 @commands_import.has_any_role(admin)
 async def ban(ctx, member:discord.Member, *, reason=None, client=client):
@@ -185,6 +168,7 @@ async def ban(ctx, member:discord.Member, *, reason=None, client=client):
   await log.commandsLog()
   await comand.ban()
 
+# !kick
 @client.command()
 @commands_import.has_any_role(admin)
 async def kick(ctx, member:discord.Member, *, reason=None, client=client):

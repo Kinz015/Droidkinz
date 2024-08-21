@@ -1,5 +1,3 @@
-import asyncio
-
 class CommandsCommands:
   def __init__(self, ctx, discord, client):
     self.ctx = ctx
@@ -9,7 +7,7 @@ class CommandsCommands:
   async def commands(self):
     embed = self.discord.Embed(
     title = "Comandos:",
-    description = "- !comandos\n- !perfil\n- !play\n- !sair \n- !flerte",
+    description = "- !comandos\n- !profile\n- !play\n- !sair \n- !flerte",
     color = 0xffff00
     )
     embed.set_author(
@@ -19,4 +17,4 @@ class CommandsCommands:
       text="created by Kinz015",
       icon_url=self.client.user.avatar.url
     )
-    mensagem = await self.ctx.channel.send(embed=embed)
+    await self.ctx.channel.send(embed=embed)
