@@ -1,9 +1,10 @@
 import discord
-from discord.ext import commands
+from discord.ext import commands as commands_import
 from dotenv import load_dotenv
 import os
 from discord.utils import get
 import asyncio
+from Comandos_User.commands_commands import CommandsCommands
 from Comandos_Mod.commands_mute import CommandsMute
 from Comandos_Mod.commands_clear import CommandsClear
 from Comandos_Mod.commands_timeout import CommandsTimeout
@@ -19,7 +20,7 @@ intents = discord.Intents.default()
 intents.members = True
 intents.message_content = True
 
-client = commands.Bot('!', case_insensitive = True, intents = intents)
+client = commands_import.Bot('!', case_insensitive = True, intents = intents)
 
 admin = "👻 MOD"
 
@@ -36,26 +37,15 @@ async def on_member_join(self):
   await canalbemvindo.send(f"{self.mention} bem vindo ao {self.guild}.")
   await self.add_roles(role)
 
+
 # !comandos
 @client.command()
-async def comandos(ctx):
+async def commands(ctx, discord=discord, client=client):
 # Criar uma embed
-  embed = discord.Embed(
-    title = "Lista de Comandos:",
-    description = "- !comandos\n- !perfil\n- !play\n- !sair \n- !flerte",
-    color = 0xffff00
-  )
-  embed.set_author(
-    name=client.user.name, 
-    icon_url=client.user.avatar.url)
-  embed.set_footer(
-    text="created by Kinz015",
-    icon_url=client.user.avatar.url
-  )
-  mensagem = await ctx.channel.send(embed=embed)
-  await asyncio.sleep(10)
-  await ctx.message.delete()
-  await mensagem.delete()
+  comand = CommandsCommands(ctx, discord, client)
+  log = CommandsLog(ctx, ctx.author, client)
+  await log.commandsLog()
+  await comand.commands()
 
 # !perfil
 @client.command()
@@ -148,7 +138,7 @@ async def test(ctx):
 #COMANDOS MOD
 
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def clear(ctx, amount:str, client=client):
   comand = CommandsClear(ctx, amount)
   log = CommandsLog(ctx, ctx.author, client)
@@ -156,7 +146,7 @@ async def clear(ctx, amount:str, client=client):
   await comand.clear()
 
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def mute(ctx, member:discord.Member, timelimit, client=client):
   comand = CommandsMute(ctx, member, timelimit)
   log = CommandsLog(ctx, ctx.author, client)
@@ -164,7 +154,7 @@ async def mute(ctx, member:discord.Member, timelimit, client=client):
   await comand.mute()
 
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def unmute(ctx, member:discord.Member, client=client):
   comand = CommandsMute(ctx, member)
   log = CommandsLog(ctx, ctx.author, client)
@@ -172,7 +162,7 @@ async def unmute(ctx, member:discord.Member, client=client):
   await comand.unmute()
 
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def timeout(ctx, member:discord.Member, timelimit, discord=discord, client=client):
   comand = CommandsTimeout(ctx, member, timelimit, discord)
   log = CommandsLog(ctx, ctx.author, client)
@@ -180,7 +170,7 @@ async def timeout(ctx, member:discord.Member, timelimit, discord=discord, client
   await comand.timeout()
 
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def mod(ctx, client=client, discord=discord):
   comand = CommandsMod(ctx, client, discord)
   log = CommandsLog(ctx, ctx.author, client)
@@ -188,7 +178,7 @@ async def mod(ctx, client=client, discord=discord):
   await comand.mod()
   
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def ban(ctx, member:discord.Member, *, reason=None, client=client):
   comand = CommandsBan(ctx, member, reason)
   log = CommandsLog(ctx, ctx.author, client)
@@ -196,7 +186,7 @@ async def ban(ctx, member:discord.Member, *, reason=None, client=client):
   await comand.ban()
 
 @client.command()
-@commands.has_any_role(admin)
+@commands_import.has_any_role(admin)
 async def kick(ctx, member:discord.Member, *, reason=None, client=client):
   comand = CommandsKick(ctx, member, reason)
   log = CommandsLog(ctx, ctx.author, client)
