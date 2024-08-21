@@ -7,7 +7,7 @@ class CommandsMod:
   async def mod(self):
     embed = self.discord.Embed(
       title = "Lista de Comandos:",
-      description = "- !apagar",
+      description = "- !mod\n- !mute\n- !unmute\n- !clear \n- !ban \n- !kick \n- !timeout \n",
       color = 0xffff00
     )
     embed.set_author(
