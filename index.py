@@ -47,8 +47,8 @@ async def commands(ctx, discord=discord, client=client):
 
 # !perfil
 @client.command()
-async def profile(ctx, member:discord.Member, discord=discord):
-  comand = CommandsProfile(ctx, member, discord)
+async def profile(ctx, member:discord.Member=False, discord=discord, client=client):
+  comand = CommandsProfile(ctx, member, discord, client)
   log = CommandsLog(ctx, ctx.author, client)
   await log.commandsLog()
   await comand.profile()
