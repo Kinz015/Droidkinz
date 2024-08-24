@@ -32,7 +32,6 @@ async def on_ready():
 @client.event
 async def on_member_join(self):
   canalbemvindo = client.get_channel(1211027616845271150)
-# Pegando o cargo
   role = self.guild.get_role(1211106560869408838)
   await canalbemvindo.send(f"{self.mention} bem vindo ao {self.guild}.")
   await self.add_roles(role)
@@ -54,62 +53,8 @@ async def profile(ctx, member:discord.Member=False, discord=discord, client=clie
   await comand.profile()
 
 # COMANDOS YT / MUSICA
-@client.command()
-async def join(ctx, args):
-  try:
-    call = ctx.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected():
-      await voice.move_to(call)
-    else:
-      voice = await call.connect()
-      await discord.send_audio_packet(args, encode=True)
-  except AttributeError:
-    await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
-@client.command()
-async def play(ctx, args):
-  try:
-    call = ctx.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected():
-      await voice.move_to(call)
-    else:
-      voice = await call.connect()
-      await discord.send_audio_packet(args, encode=True)
-  except AttributeError:
-    await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
-@client.command()
-async def pause(ctx):
-  await ctx.channel.send("Comando em desenvolvimento . . .")
-  
-
-@client.command()
-async def resume(ctx):
-  await ctx.channel.send("Comando em desenvolvimento . . .")
-
-@client.command()
-async def stop(ctx):
-  await ctx.channel.send("Comando em desenvolvimento . . .")
-
-@client.command()
-async def sair(ctx):
-  try:
-    voice = get(client.voice_clients, guild=ctx.guild)
-    await voice.disconnect()
-  except AttributeError:
-    await ctx.channel.send("O bot não esta conectado em nenhum canal de voz.")
-
-@client.command()
-async def flerte(ctx, args):
-  user = client.get_user(int(args))
-  await ctx.channel.send(f"Oie {user.mention} vem sempre aqui? 😏")
-   
-@client.command()
-async def test(ctx):
-  created_at = discord.utils.snowflake_time(393863136979058699)
-  print(created_at)
 
 #COMANDOS MOD
 
