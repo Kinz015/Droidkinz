@@ -1,6 +1,8 @@
 import discord
 from discord.ext import commands as commands_import
+from pytube import YouTube
 from dotenv import load_dotenv
+import subprocess
 import os
 from discord.utils import get
 from Comandos_User.commands_commands import CommandsCommands
@@ -53,21 +55,13 @@ async def profile(ctx, member:discord.Member=False, discord=discord, client=clie
   await comand.profile()
 
 # COMANDOS YT / MUSICA
-@client.command()
-async def join(ctx, args):
-  try:
-    call = ctx.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected():
-      await voice.move_to(call)
-    else:
-      voice = await call.connect()
-      await discord.send_audio_packet(args, encode=True)
-  except AttributeError:
-    await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
 @client.command()
 async def play(ctx, args):
+  # os.system("cd ")
+  command = f'''./yt-dlp.exe -P "D:\Program Files\Bots\droidkinz" -o "teste" {args}'''
+  result = subprocess.run(command, capture_output=True, text=True)
+  source = discord.FFmpegPCMAudio(executable="C:\ProgramData\chocolatey\\bin\\ffmpeg.exe", source="teste")
   try:
     call = ctx.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -75,7 +69,7 @@ async def play(ctx, args):
       await voice.move_to(call)
     else:
       voice = await call.connect()
-      await discord.send_audio_packet(args, encode=True)
+    voice.play(source)
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
