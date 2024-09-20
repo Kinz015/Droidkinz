@@ -1,8 +1,7 @@
 import discord
+import yt_dlp
 from discord.ext import commands as commands_import
-from pytube import YouTube
 from dotenv import load_dotenv
-import subprocess
 import os
 from discord.utils import get
 from Comandos_User.commands_commands import CommandsCommands
@@ -15,8 +14,13 @@ from Comandos_Mod.commands_ban import CommandsBan
 from Comandos_Mod.commands_kick import CommandsKick
 from Logs.commands_logs import CommandsLog
 
+FFMPEG_OPTIONS = {'options' : '-vn'}
+YDL_OPTIONS = {'format' : 'bestaudio', 'noplaylist' : True}
+
 load_dotenv('.env')
 TOKEN = os.getenv('TOKEN')
+
+queue = []
 
 intents = discord.Intents.default()
 intents.members = True
@@ -56,12 +60,9 @@ async def profile(ctx, member:discord.Member=False, discord=discord, client=clie
 
 # COMANDOS YT / MUSICA
 
+  
 @client.command()
-async def play(ctx, args):
-  # os.system("cd ")
-  command = f'''./yt-dlp.exe -P "D:\Program Files\Bots\droidkinz" -o "teste" {args}'''
-  result = subprocess.run(command, capture_output=True, text=True)
-  source = discord.FFmpegPCMAudio(executable="C:\ProgramData\chocolatey\\bin\\ffmpeg.exe", source="teste")
+async def play(ctx, *, search):
   try:
     call = ctx.author.voice.channel
     voice = get(client.voice_clients, guild=ctx.guild)
@@ -69,9 +70,21 @@ async def play(ctx, args):
       await voice.move_to(call)
     else:
       voice = await call.connect()
-    voice.play(source)
+    with yt_dlp.YoutubeDL(YDL_OPTIONS) as ydl:
+      info = ydl.extract_info(f"ytsearch:{search}", download=False)
+      if 'entries' in info:
+        info = info['entries'][0]
+      url = info['url']
+      title = info['title']
+      queue.append((url, title))
+      await ctx.send(f'Adicionado a fila: **{title}**')
+
+
+    
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
+
+
 
 @client.command()
 async def pause(ctx):
