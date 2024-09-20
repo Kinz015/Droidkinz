@@ -95,6 +95,13 @@ async def play_next(ctx):
     await ctx.send("Queue is empty!")
 
 @client.command()
+async def skip(ctx):
+  if ctx.voice_client and ctx.voice_client.is_playing():
+    ctx.voice_client.stop()
+    await ctx.send("Skipped")
+    
+
+@client.command()
 async def pause(ctx):
   await ctx.channel.send("Comando em desenvolvimento . . .")
   
