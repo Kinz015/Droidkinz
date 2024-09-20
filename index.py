@@ -78,13 +78,21 @@ async def play(ctx, *, search):
       title = info['title']
       queue.append((url, title))
       await ctx.send(f'Adicionado a fila: **{title}**')
-
+    if not ctx.voice_client.is_playing():
+      await play_next(ctx)
 
     
   except AttributeError:
     await ctx.channel.send("Você precisa esta conectado a um canal de voz.")
 
-
+async def play_next(ctx):
+  if queue:
+    url, title = queue.pop(0)
+    source = await discord.FFmpegOpusAudio.from_probe(url, **FFMPEG_OPTIONS)
+    ctx.voice_client.play(source, after=lambda _:client.loop.create_task(play_next(ctx)))
+    await ctx.send(f"Now playing **{title}**")
+  elif not ctx.voice_client.is_playing():
+    await ctx.send("Queue is empty!")
 
 @client.command()
 async def pause(ctx):
