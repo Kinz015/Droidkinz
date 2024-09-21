@@ -7,7 +7,7 @@ class CommandsCommands:
   async def commands(self):
     embed = self.discord.Embed(
     title = "Comandos:",
-    description = "- !comandos\n- !profile\n- !play\n- !sair \n- !flerte",
+    description = "- !comandos\n- !profile\n- !play\n- !skip\n- !stop \n- !flerte",
     color = 0xffff00
     )
     embed.set_author(
