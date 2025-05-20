@@ -187,5 +187,4 @@ async def kick(ctx, member:discord.Member, *, reason=None, client=client):
   await log.commandsLog()
   await comand.kick()
 
-
 client.run(TOKEN)
