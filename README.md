@@ -1,2 +1,2 @@
-# droidkinz
+# Droidkinz
  Meu bot de discord
