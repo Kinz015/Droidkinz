@@ -4,7 +4,6 @@ from discord.ext import commands as commands_import
 from dotenv import load_dotenv
 import os
 from discord.utils import get
-from Logs.commands_logs import CommandsLog
 
 FFMPEG_OPTIONS = {'options' : '-vn'}
 YDL_OPTIONS = {'format' : 'bestaudio', 'noplaylist' : True}
