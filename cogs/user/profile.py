@@ -17,7 +17,10 @@ class Profile(commands.Cog):
 
     embed = discord.Embed(
       title=f"Perfil de {member.display_name}",
-      description=f"📅 Conta criada em: {member.created_at.strftime('%d/%m/%Y %H:%M:%S')}",
+      description=(
+        f"📅 Conta criada em: {member.created_at.strftime('%d/%m/%Y')}\n"
+        f"👥 Entrou no servidor em: {member.joined_at.strftime('%d/%m/%Y') if member.joined_at else 'Data desconhecida'}"
+      ),
       color=0x993399
     )
 
