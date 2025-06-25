@@ -4,7 +4,5 @@ join_leave.py	Loga entradas e saídas do servidor.
 message_log.py	Loga mensagens deletadas ou editadas (usando on_message_delete etc).
 
 🧩 EXTRA / FUN / UTILIDADES
-!coinflip	Cara ou coroa.
 
 🛡️ MODERAÇÃO
-lock.py / unlock.py	!lock, !unlock	Bloqueia/desbloqueia envio de mensagens no canal.
