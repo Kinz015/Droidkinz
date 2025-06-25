@@ -3,7 +3,6 @@ from discord.ext import commands
 from yt_dlp import YoutubeDL
 import os
 import asyncio
-from music_queue import MusicQueue
 
 ytdl = YoutubeDL({
   'format': 'bestaudio/best',
@@ -19,7 +18,7 @@ ffmpeg_options = {
 class Play(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
-    self.music_queue = MusicQueue()
+    self.music_queue = bot.music_queue
     self.current_files = {}  # Armazena o arquivo atual por servidor
 
   async def play_next(self, ctx):

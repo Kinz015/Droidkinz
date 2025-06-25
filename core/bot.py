@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from music_queue import MusicQueue
 import os
 
 intents = discord.Intents.default()
@@ -7,6 +8,8 @@ intents.members = True
 intents.message_content = True
 
 bot = commands.Bot(command_prefix="!", intents=intents, case_insensitive=True)
+
+bot.music_queue = MusicQueue()
 
 @bot.event
 async def on_ready():
