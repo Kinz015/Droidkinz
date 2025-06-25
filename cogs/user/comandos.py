@@ -29,6 +29,7 @@ class CommandsList(commands.Cog):
                 "**!skip** / **!pular** — Pular para a próxima música\n"
                 "**!stop** / **!parar** — Parar a reprodução\n"
                 "**!queue** / **!fila** — Ver fila de músicas\n"
+                "**!clearqueue** / **!limparfila** — Remove todas as músicas da fila atual\n"
                 "**!music** / **!música** — Mostrar status da música atual"
             ),
             inline=False

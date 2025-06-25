@@ -23,45 +23,41 @@ class Play(commands.Cog):
 
   async def play_next(self, ctx):
     queue = self.music_queue.get_queue(ctx.guild.id)
-    
+
     if queue.empty():
+      # Só envia mensagem se o bot ainda estiver conectado
+      if ctx.voice_client and ctx.voice_client.is_connected():
         await ctx.send("📭 A fila acabou. O bot vai se desconectar em 5 minutos se nenhuma música for adicionada.")
 
         await asyncio.sleep(300)  # 5 minutos
+        queue = self.music_queue.get_queue(ctx.guild.id)
 
-        # Verifica se ainda está sem tocar nada
-        if (not ctx.voice_client or not ctx.voice_client.is_connected()
-          or ctx.voice_client.is_playing()
-          or not queue.empty()):
-          return  # Se conectou ou voltou a tocar, não desconecta
-
-        await ctx.send("⏱️ Tempo esgotado. Desconectando por inatividade.")
-        await ctx.voice_client.disconnect()
+        # Verifica de novo se ainda está vazio E se o bot continua conectado
+        if queue.empty() and ctx.voice_client and ctx.voice_client.is_connected():
+          await ctx.voice_client.disconnect()
+          await ctx.send("🛑 Bot desconectado por inatividade.")
         return
 
     data = await queue.get()
     title = data['title']
-    filename = ytdl.prepare_filename(data)
+    filename = self.bot.ytdl.prepare_filename(data)
 
     self.current_files[ctx.guild.id] = {
       "filename": filename,
       "title": title
     }
+
     source = discord.FFmpegPCMAudio(filename, **ffmpeg_options)
 
-    def after_playing(err, file_to_remove=filename):
-        async def remove_file():
-            await asyncio.sleep(1)
-            try:
-              os.remove(file_to_remove)
-            except Exception as e:
-              print(f"⚠️ Erro ao remover {file_to_remove}: {e}")
-            fut = self.play_next(ctx)
-            asyncio.run_coroutine_threadsafe(fut, self.bot.loop)
+    def after_playing(err):
+        try:
+          os.remove(filename)
+        except Exception:
+          pass
+        fut = self.play_next(ctx)
+        asyncio.run_coroutine_threadsafe(fut, self.bot.loop)
 
-        asyncio.run_coroutine_threadsafe(remove_file(), self.bot.loop)
-
-    ctx.voice_client.play(source, after=lambda err: after_playing(err))
+    ctx.voice_client.play(source, after=after_playing)
     await ctx.send(f"▶️ Tocando: **{title}**")
 
   @commands.command(name="play", aliases=["tocar"])
