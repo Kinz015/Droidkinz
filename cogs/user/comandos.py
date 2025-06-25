@@ -13,9 +13,9 @@ class CommandsList(commands.Cog):
             color=discord.Color.gold()
         )
         embed.add_field(
-            name=" Usuário",
+            name="👤 Usuário",
             value=(
-                "**!profile** / **!perfil (Se for de outro usuário) + [Usuário]** — Tocar uma música\n"
+                "**!profile** / **!perfil [Usuário] (opcional)** — Exibe seu perfil ou o de outro usuário se mencionado\n"
                 "**!commands** / **!comandos** — Mostrar a lista de comandos"
             ),
             inline=False
