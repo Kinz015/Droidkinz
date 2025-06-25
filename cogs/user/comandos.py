@@ -23,7 +23,7 @@ class CommandsList(commands.Cog):
         embed.add_field(
             name="🎵 Música",
             value=(
-                "**!play** / **!tocar [nome ou link do YT]** — Tocar uma música\n"
+                "**!play** / **!tocar [Nome ou link do YT]** — Tocar uma música\n"
                 "**!pause** / **!pausar** — Pausar a música\n"
                 "**!resume** / **!continuar** — Continuar a música\n"
                 "**!skip** / **!pular** — Pular para a próxima música\n"

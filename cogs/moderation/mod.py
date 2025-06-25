@@ -23,8 +23,8 @@ class Mod(commands.Cog):
         "**!timeout** / **!castigo [usuário]** — Dar timeout a um usuário\n"
         "**!removetimeout** / **!removercastigo [usuário]** — Remover timeout a um usuário\n"
         "**!clear** / **!limpar [quantidade]** — Limpar mensagens\n"
-        "**!lock** / **!trancar** — Tranca o canal de texto"
-        "**!unlock** / **!destrancar** — Destranca o canal de texto"
+        "**!lock** / **!trancar [canal de texto] (opcional)** — Tranca o canal de texto\n"
+        "**!unlock** / **!destrancar [canal de texto] (opcional)** — Destranca o canal de texto\n"
         "**!mod** / **!moderação** — Mostrar a lista de comandos de moderação"
       ),
       inline=False
