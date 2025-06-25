@@ -31,26 +31,34 @@ class Play(commands.Cog):
     data = await queue.get()
     title = data['title']
     filename = ytdl.prepare_filename(data)
+
+    # Salva o nome do arquivo atual ANTES da música começar
     self.current_files[ctx.guild.id] = filename
 
     source = discord.FFmpegPCMAudio(filename, **ffmpeg_options)
 
-    def after_playing(err):
-      try:
-        os.remove(filename)
-      except Exception:
-        pass
-      fut = self.play_next(ctx)
-      asyncio.run_coroutine_threadsafe(fut, self.bot.loop)
+    def after_playing(err, file_to_remove=filename):
+      async def remove_file():
+        await asyncio.sleep(1)  # Espera 1 segundo para o FFmpeg liberar o arquivo
+        try:
+            os.remove(file_to_remove)
+            print(f"🗑️ Arquivo removido: {file_to_remove}")
+        except Exception as e:
+            print(f"⚠️ Erro ao remover {file_to_remove}: {e}")
+        fut = self.play_next(ctx)
+        asyncio.run_coroutine_threadsafe(fut, self.bot.loop)
 
-    ctx.voice_client.play(source, after=after_playing)
+      asyncio.run_coroutine_threadsafe(remove_file(), self.bot.loop)
+
+    # Passa a função com lambda para capturar o nome correto do arquivo
+    ctx.voice_client.play(source, after=lambda err: after_playing(err))
+
     await ctx.send(f"▶️ Tocando: **{title}**")
 
   @commands.command(name="play")
   async def play(self, ctx, *, search: str):
     queue = await self.music_queue.ensure_queue(ctx.guild.id)
 
-    # Conectar ao canal de voz
     voice_channel = ctx.author.voice.channel if ctx.author.voice else None
     if not voice_channel:
       await ctx.send("❌ Você precisa estar em um canal de voz.")
