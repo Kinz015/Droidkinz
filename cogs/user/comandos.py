@@ -15,8 +15,8 @@ class CommandsList(commands.Cog):
         embed.add_field(
             name="👤 Usuário",
             value=(
-                "**!profile** / **!perfil [Usuário] (opcional)** — Exibe seu perfil ou o de outro usuário se mencionado\n"
-                "**!coinflip** / **!caraoucoroa [cara/coroa] (opcional)** — Joga cara ou coroa aleatoriamente\n"
+                "**!profile** / **!perfil [Usuário](opcional)** — Exibe seu perfil ou o de outro usuário se mencionado\n"
+                "**!coinflip** / **!caraoucoroa [cara/coroa](opcional)** — Joga cara ou coroa aleatoriamente\n"
                 "**!commands** / **!comandos** — Mostrar a lista de comandos"
             ),
             inline=False

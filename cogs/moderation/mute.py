@@ -59,22 +59,22 @@ class Mute(commands.Cog):
     except Exception as e:
       await ctx.send(f"⚠️ Erro ao mutar: `{str(e)}`")
 
-    @commands.command(name="unmute", aliases=["desmutar"])
-    @commands.has_guild_permissions(mute_members=True)
-    async def unmute(self, ctx, member: discord.Member):
-      if not ctx.guild.me.guild_permissions.mute_members:
-        await ctx.send("❌ Eu não tenho permissão para desmutar membros.")
-        return
+  @commands.command(name="unmute", aliases=["desmutar"])
+  @commands.has_guild_permissions(mute_members=True)
+  async def unmute(self, ctx, member: discord.Member):
+    if not ctx.guild.me.guild_permissions.mute_members:
+      await ctx.send("❌ Eu não tenho permissão para desmutar membros.")
+      return
 
-      try:
-        await member.edit(mute=False)
-        await ctx.send(f"🔊 {member.mention} foi desmutado na call.")
-      except discord.Forbidden:
-        await ctx.send("❌ Não tenho permissão para desmutar esse membro.")
-      except Exception as e:
-        await ctx.send(f"⚠️ Erro ao desmutar: `{str(e)}`")
+    try:
+      await member.edit(mute=False)
+      await ctx.send(f"🔊 {member.mention} foi desmutado na call.")
+    except discord.Forbidden:
+      await ctx.send("❌ Não tenho permissão para desmutar esse membro.")
+    except Exception as e:
+      await ctx.send(f"⚠️ Erro ao desmutar: `{str(e)}`")
 
 
 async def setup(bot):
-    await bot.add_cog(Mute(bot))
+  await bot.add_cog(Mute(bot))
 

@@ -16,15 +16,15 @@ class Mod(commands.Cog):
     embed.add_field(
       name="🛡️ Moderação",
       value=(
-        "**!ban** / **!banir [usuário]** — Banir um usuário\n"
-        "**!kick** / **!expulsar [usuário]** — Expulsar um usuário\n"
-        "**!mute** / **!mutar [usuário]** — Mutar um usuário\n"
-        "**!unmute** / **!desmutar [usuário]** — Dessilenciar um membro\n"
-        "**!timeout** / **!castigo [usuário]** — Dar timeout a um usuário\n"
-        "**!removetimeout** / **!removercastigo [usuário]** — Remover timeout a um usuário\n"
+        "**!ban** / **!banir [Usuário] [Motivo](opcional)** — Banir um usuário\n"
+        "**!kick** / **!expulsar [Usuário] ?[Motivo](opcional)** — Expulsar um usuário\n"
+        "**!mute** / **!mutar [Usuário] ?[Tempo](opcional)** — Mutar um usuário\n"
+        "**!unmute** / **!desmutar [Usuário]** — Dessilenciar um membro\n"
+        "**!timeout** / **!castigo [Usuário]** — Dar timeout a um usuário\n"
+        "**!removetimeout** / **!removercastigo [Usuário]** — Remover timeout a um usuário\n"
         "**!clear** / **!limpar [quantidade]** — Limpar mensagens\n"
-        "**!lock** / **!trancar [canal de texto] (opcional)** — Tranca o canal de texto\n"
-        "**!unlock** / **!destrancar [canal de texto] (opcional)** — Destranca o canal de texto\n"
+        "**!lock** / **!trancar [canal de texto](opcional)** — Tranca o canal de texto\n"
+        "**!unlock** / **!destrancar [canal de texto](opcional)** — Destranca o canal de texto\n"
         "**!mod** / **!moderação** — Mostrar a lista de comandos de moderação"
       ),
       inline=False
