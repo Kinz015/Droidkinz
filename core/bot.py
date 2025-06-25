@@ -30,3 +30,5 @@ async def setup_hook():
         for filename in os.listdir(folder):
             if filename.endswith('.py') and filename != '__init__.py':
                 await bot.load_extension(f"{folder.replace('/', '.')}.{filename[:-3]}")
+            
+    await bot.load_extension("core.error_handler")

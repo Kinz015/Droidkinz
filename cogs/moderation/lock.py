@@ -19,11 +19,5 @@ class Lock(commands.Cog):
     await channel.set_permissions(ctx.guild.default_role, send_messages=True)
     await ctx.send(f"🔓 Canal {channel.mention} destrancado com sucesso.")
 
-  @lock.error
-  @unlock.error
-  async def permission_error(self, ctx, error):
-    if isinstance(error, commands.MissingPermissions):
-      await ctx.send("❌ Você não tem permissão para usar este comando.")
-
 async def setup(bot):
   await bot.add_cog(Lock(bot))
