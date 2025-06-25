@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 class Pause(commands.Cog):
-  @commands.command(name="pause")
+  @commands.command(name="pause", aliases=["pausar"])
   async def pause(self, ctx):
     if ctx.voice_client and ctx.voice_client.is_playing():
       ctx.voice_client.pause()

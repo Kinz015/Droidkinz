@@ -3,7 +3,7 @@ import shutil
 from discord.ext import commands
 
 class Stop(commands.Cog):
-  @commands.command(name="stop")
+  @commands.command(name="stop", aliases=["parar"])
   async def stop(self, ctx):
     if ctx.voice_client:
       await ctx.voice_client.disconnect()

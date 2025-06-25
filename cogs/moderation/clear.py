@@ -4,7 +4,7 @@ class Clear(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command()
+  @commands.command(name="clear", aliases=["limpar"])
   @commands.has_permissions(manage_messages=True)
   async def clear(self, ctx, amount: str = "1"):  # Valor padrão é 1
     if amount.lower() == "all":

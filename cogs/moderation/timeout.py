@@ -26,7 +26,7 @@ class Timeout(commands.Cog):
     except Exception:
       return None, "Formato inválido. Use, por exemplo: 10s, 5m, 2h, 1d, 1w."
 
-  @commands.command()
+  @commands.command(name="timeout", aliases=["castigo"])
   @commands.has_permissions(moderate_members=True)  # permissão necessária para timeout no Discord
   async def timeout(self, ctx, member: discord.Member, duration: str = None):
     """Aplica timeout no membro por um período definido"""
@@ -53,7 +53,7 @@ class Timeout(commands.Cog):
     except Exception as e:
       await ctx.send(f"⚠️ Erro ao aplicar timeout: {e}")
 
-  @commands.command()
+  @commands.command(name="removetimeout", aliases=["removercastigo"])
   @commands.has_permissions(moderate_members=True)
   async def removetimeout(self, ctx, member: discord.Member):
     """Remove timeout do membro"""

@@ -5,21 +5,27 @@ class Mod(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command()
+  @commands.command(name="mod", aliases=["moderação"])
   @commands.has_permissions(kick_members=True)
   async def mod(self, ctx):
     embed = discord.Embed(
-      title="📋 Lista de Comandos de Moderação:",
-      description=(
-        "**!mod** - Exibe esta lista\n"
-        "**!mute [usuário]** - Silenciar um membro\n"
-        "**!unmute [usuário]** - Dessilenciar um membro\n"
-        "**!clear [quantidade]** - Limpar mensagens\n"
-        "**!ban [usuário]** - Banir um membro\n"
-        "**!kick [usuário]** - Expulsar um membro\n"
-        "**!timeout [usuário] [tempo]** - Dar timeout em um membro\n"
-      ),
+      title="📜 Lista de Comandos",
+      description="Aqui estão os comandos disponíveis em inglês e português:",
       color=discord.Color.gold()
+    )
+    embed.add_field(
+      name="🛡️ Moderação",
+      value=(
+        "**!ban** / **!banir [usuário]** — Banir um usuário\n"
+        "**!kick** / **!expulsar [usuário]** — Expulsar um usuário\n"
+        "**!mute** / **!mutar [usuário]** — Mutar um usuário\n"
+        "**!unmute** / **!desmutar [usuário]** — Dessilenciar um membro\n"
+        "**!timeout** / **!castigo [usuário]** — Dar timeout a um usuário\n"
+        "**!removetimeout** / **!removercastigo [usuário]** — Remover timeout a um usuário\n"
+        "**!clear** / **!limpar [quantidade]** — Limpar mensagens\n"
+        "**!mod** / **!moderação** — Mostrar a lista de comandos de moderação"
+      ),
+      inline=False
     )
     embed.set_author(
       name=self.bot.user.name,

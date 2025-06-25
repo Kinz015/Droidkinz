@@ -5,7 +5,7 @@ class Kick(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command()
+  @commands.command(name="kick", aliases=["expulsar"])
   @commands.has_permissions(kick_members=True)
   async def kick(self, ctx, member: discord.Member, *, reason=None):
     await member.kick(reason=reason)

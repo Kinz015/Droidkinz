@@ -31,9 +31,9 @@ class Play(commands.Cog):
 
         # Verifica se ainda está sem tocar nada
         if (not ctx.voice_client or not ctx.voice_client.is_connected()
-            or ctx.voice_client.is_playing()
-            or not queue.empty()):
-            return  # Se conectou ou voltou a tocar, não desconecta
+          or ctx.voice_client.is_playing()
+          or not queue.empty()):
+          return  # Se conectou ou voltou a tocar, não desconecta
 
         await ctx.send("⏱️ Tempo esgotado. Desconectando por inatividade.")
         await ctx.voice_client.disconnect()
@@ -43,16 +43,19 @@ class Play(commands.Cog):
     title = data['title']
     filename = ytdl.prepare_filename(data)
 
-    self.current_files[ctx.guild.id] = filename
+    self.current_files[ctx.guild.id] = {
+      "filename": filename,
+      "title": title
+    }
     source = discord.FFmpegPCMAudio(filename, **ffmpeg_options)
 
     def after_playing(err, file_to_remove=filename):
         async def remove_file():
             await asyncio.sleep(1)
             try:
-                os.remove(file_to_remove)
+              os.remove(file_to_remove)
             except Exception as e:
-                print(f"⚠️ Erro ao remover {file_to_remove}: {e}")
+              print(f"⚠️ Erro ao remover {file_to_remove}: {e}")
             fut = self.play_next(ctx)
             asyncio.run_coroutine_threadsafe(fut, self.bot.loop)
 
@@ -61,7 +64,7 @@ class Play(commands.Cog):
     ctx.voice_client.play(source, after=lambda err: after_playing(err))
     await ctx.send(f"▶️ Tocando: **{title}**")
 
-  @commands.command(name="play")
+  @commands.command(name="play", aliases=["tocar"])
   async def play(self, ctx, *, search: str):
     queue = await self.music_queue.ensure_queue(ctx.guild.id)
 

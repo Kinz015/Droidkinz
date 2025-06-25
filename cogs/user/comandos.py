@@ -5,26 +5,38 @@ class CommandsList(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @commands.command(name="comandos")
-    async def comandos(self, ctx):
+    @commands.command(name="commands", aliases=["comandos"])
+    async def commands(self, ctx):
         embed = discord.Embed(
-            title="📜 Comandos disponíveis:",
-            description=(
-                "**!comandos** - Exibe esta lista\n"
-                "**!profile [@membro]** - Mostra o perfil de alguém\n"
-                "**!play [música/link]** - Toca uma música\n"
-                "**!skip** - Pula a música atual\n"
-                "**!stop** - Para e limpa a fila\n"
-                "**!flerte** - Envia uma cantada aleatória\n"
-            ),
+            title="📜 Lista de Comandos",
+            description="Aqui estão os comandos disponíveis em inglês e português:",
             color=discord.Color.gold()
         )
-
+        embed.add_field(
+            name=" Usuário",
+            value=(
+                "**!profile** / **!perfil (Se for de outro usuário) + [Usuário]** — Tocar uma música\n"
+                "**!commands** / **!comandos** — Mostrar a lista de comandos"
+            ),
+            inline=False
+        )
+        embed.add_field(
+            name="🎵 Música",
+            value=(
+                "**!play** / **!tocar [nome ou link do YT]** — Tocar uma música\n"
+                "**!pause** / **!pausar** — Pausar a música\n"
+                "**!resume** / **!continuar** — Continuar a música\n"
+                "**!skip** / **!pular** — Pular para a próxima música\n"
+                "**!stop** / **!parar** — Parar a reprodução\n"
+                "**!queue** / **!fila** — Ver fila de músicas\n"
+                "**!music** / **!música** — Mostrar status da música atual"
+            ),
+            inline=False
+        )
         embed.set_author(
             name=self.bot.user.name,
             icon_url=self.bot.user.avatar.url
         )
-
         embed.set_footer(
             text="created by Kinz015",
             icon_url=self.bot.user.avatar.url

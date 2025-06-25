@@ -18,7 +18,7 @@ class Mute(commands.Cog):
     except:
       return None
 
-  @commands.command()
+  @commands.command(name="mute", aliases=["mutar"])
   @commands.has_guild_permissions(mute_members=True)
   async def mute(self, ctx, member: discord.Member, duration: str = "0"):
     # Verifica se o bot tem permissão de silenciar membros
@@ -59,7 +59,7 @@ class Mute(commands.Cog):
     except Exception as e:
       await ctx.send(f"⚠️ Erro ao mutar: `{str(e)}`")
 
-    @commands.command()
+    @commands.command(name="unmute", aliases=["desmutar"])
     @commands.has_guild_permissions(mute_members=True)
     async def unmute(self, ctx, member: discord.Member):
       if not ctx.guild.me.guild_permissions.mute_members:

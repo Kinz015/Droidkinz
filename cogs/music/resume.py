@@ -1,7 +1,7 @@
 from discord.ext import commands
 
 class Resume(commands.Cog):
-  @commands.command(name="resume")
+  @commands.command(name="resume", aliases=["continuar"])
   async def resume(self, ctx):
     if ctx.voice_client and ctx.voice_client.is_paused():
       ctx.voice_client.resume()

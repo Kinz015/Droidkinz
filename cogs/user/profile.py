@@ -5,7 +5,7 @@ class Profile(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command()
+  @commands.command(name="profile", aliases=["perfil"])
   async def profile(self, ctx, member: discord.Member = None):
     if member is None:
       member = ctx.author

@@ -6,13 +6,15 @@ class Skip(commands.Cog):
   def __init__(self, bot):
     self.bot = bot
 
-  @commands.command(name="skip")
+  @commands.command(name="skip", aliases=["pular"])
   async def skip(self, ctx):
     if ctx.voice_client and ctx.voice_client.is_playing():
       # Tenta deletar o arquivo atual antes de pular
       play_cog = self.bot.get_cog("Play")
       if play_cog:
-        filename = play_cog.current_files.get(ctx.guild.id)
+        file_data = play_cog.current_files.get(ctx.guild.id)
+        filename = file_data["filename"] if isinstance(file_data, dict) else file_data
+
         if filename and os.path.exists(filename):
           try:
             os.remove(filename)

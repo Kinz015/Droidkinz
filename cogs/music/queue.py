@@ -3,11 +3,11 @@ from discord.ext import commands
 
 class Queue(commands.Cog):
     def __init__(self, bot):
-        self.bot = bot
-        self.music_queue = bot.music_queue
+      self.bot = bot
+      self.music_queue = bot.music_queue
 
-    @commands.command(name="fila", aliases=["queue"])
-    async def fila(self, ctx):
+    @commands.command(name="queue", aliases=["fila"])
+    async def queue(self, ctx):
       queue = self.music_queue.get_queue(ctx.guild.id)
 
       if not queue or queue.empty():
