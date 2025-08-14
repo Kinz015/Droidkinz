@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from datetime import datetime, timezone
 
 class MemberLog(commands.Cog):
   def __init__(self, bot):
@@ -26,13 +27,8 @@ class MemberLog(commands.Cog):
       inline=False
     )
     embed.add_field(
-      name="ID:",
-      value=member.id,
-      inline=False
-    )
-    embed.add_field(
-      name="Conta criada em:",
-      value=discord.utils.format_dt(member.created_at, style="R"),
+      name="Data de entrada:",
+      value=discord.utils.format_dt(datetime.now(timezone.utc), style="F"),
       inline=False
     )
 
@@ -58,8 +54,8 @@ class MemberLog(commands.Cog):
       inline=False
     )
     embed.add_field(
-      name="ID:",
-      value=member.id,
+      name="Data de saída:",
+      value=discord.utils.format_dt(datetime.now(timezone.utc), style="F"),
       inline=False
     )
 
