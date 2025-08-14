@@ -3,6 +3,7 @@ from discord.ext import commands
 from yt_dlp import YoutubeDL
 import os
 import asyncio
+import datetime
 
 ytdl = YoutubeDL({
   'format': 'bestaudio/best',
@@ -58,7 +59,18 @@ class Play(commands.Cog):
         asyncio.run_coroutine_threadsafe(fut, self.bot.loop)
 
     ctx.voice_client.play(source, after=after_playing)
-    await ctx.send(f"▶️ Tocando: **{title}**")
+    # 📌 Embed para "Tocando agora"
+    track_length = str(datetime.timedelta(seconds=data['duration']))
+    embed = discord.Embed(
+      title="▶️ Tocando agora",
+      description=f"[{title}]({data['webpage_url']})",
+      color=0x00FF00
+    )
+    embed.add_field(name="Duração", value=track_length, inline=True)
+    embed.set_thumbnail(url=data['thumbnail'])
+    embed.set_footer(text=f"Solicitado por {ctx.author.display_name}", icon_url=ctx.author.avatar.url)
+
+    await ctx.send(embed=embed)
 
   @commands.command(name="play", aliases=["tocar"])
   async def play(self, ctx, *, search: str):
@@ -81,7 +93,26 @@ class Play(commands.Cog):
       data = data['entries'][0]
 
     await queue.put(data)
-    await ctx.send(f"✅ Música **{data['title']}** adicionada à fila.")
+    # 📌 Criar embed detalhada
+    track_title = data['title']
+    track_url = data['webpage_url']
+    track_length = str(datetime.timedelta(seconds=data['duration']))
+    queue_position = queue.qsize()  # posição na fila
+    track_thumbnail = data['thumbnail']
+
+    embed = discord.Embed(
+      title="🎵 Música adicionada",
+      color=0x5865F2
+    )
+    embed.add_field(name="Música", value=f"[{track_title}]({track_url})", inline=False)
+    embed.add_field(name="Tempo estimado até tocar", value="00:00" if queue_position == 1 else "Calculando...", inline=True)
+    embed.add_field(name="Duração", value=track_length, inline=True)
+    embed.add_field(name="Próxima na fila", value="Sim" if queue_position == 1 else "Não", inline=True)
+    embed.add_field(name="Posição na fila", value=str(queue_position), inline=True)
+    embed.set_thumbnail(url=track_thumbnail)
+    embed.set_footer(text=f"Solicitado por {ctx.author.display_name}", icon_url=ctx.author.avatar.url)
+
+    await ctx.send(embed=embed)
 
     if not vc.is_playing():
       await self.play_next(ctx)
