@@ -18,13 +18,13 @@ class CommandLogger(commands.Cog):
       icon_url=ctx.author.avatar.url if ctx.author.avatar else None
     )
     embed.add_field(
-      name="Comando:",
-      value=ctx.message.content,
+      name="Canal:",
+      value=ctx.channel.mention,
       inline=False
     )
     embed.add_field(
-      name="Canal:",
-      value=ctx.channel.mention,
+      name="Comando:",
+      value=ctx.message.content,
       inline=False
     )
 
