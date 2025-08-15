@@ -105,10 +105,27 @@ class Play(commands.Cog):
       color=0x5865F2
     )
     embed.add_field(name="Música", value=f"[{track_title}]({track_url})", inline=False)
-    embed.add_field(name="Tempo estimado até tocar", value="00:00" if queue_position == 1 else "Calculando...", inline=True)
-    embed.add_field(name="Duração", value=track_length, inline=True)
-    embed.add_field(name="Próxima na fila", value="Sim" if queue_position == 1 else "Não", inline=True)
-    embed.add_field(name="Posição na fila", value=str(queue_position), inline=True)
+    embed.add_field(
+    name="Tempo estimado até tocar",
+    value="00:00" if queue_position == 1 else "Calculando...",
+    inline=True
+    )
+    embed.add_field(
+      name="Duração",
+      value=track_length,
+      inline=True
+    )
+    
+    embed.add_field(
+    name="Próxima na fila",
+    value="Sim" if queue_position == 1 else "Não",
+    inline=True
+    )
+    embed.add_field(
+    name="Posição na fila",
+    value=str(queue_position),
+    inline=True
+    )   
     embed.set_thumbnail(url=track_thumbnail)
     embed.set_footer(text=f"Solicitado por {ctx.author.display_name}", icon_url=ctx.author.avatar.url)
 
